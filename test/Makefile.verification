@@ -1,0 +1,8 @@
+SIM ?= icarus
+TOPLEVEL_LANG ?= verilog
+
+VERILOG_SOURCES = $(PWD)/../src/pattern_generator.v
+COCOTB_TOPLEVEL = pattern_generator
+COCOTB_TEST_MODULES = test_pattern_generator
+
+include $(shell cocotb-config --makefiles)/Makefile.sim

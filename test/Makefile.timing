@@ -1,9 +1,0 @@
-SIM ?= icarus
-TOPLEVEL_LANG ?= verilog
-
-VERILOG_SOURCES = $(PWD)/../src/timing_generator.v
-
-COCOTB_TOPLEVEL = timing_generator
-COCOTB_TEST_MODULES = test_timing_generator
-
-include $(shell cocotb-config --makefiles)/Makefile.sim

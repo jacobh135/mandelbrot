@@ -26,6 +26,5 @@ async def test_timing_generator(dut):
         assert hsync == dut.hsync.value, f"Expected hsync={hsync}, got hsync={dut.hsync.value}"
         assert vsync == dut.vsync.value, f"Expected vsync={vsync}, got vsync={dut.vsync.value}"
         assert video_active == dut.video_active.value, f"Expected video_active={video_active}, got video_active={dut.video_active.value}"
-        await NextTimeStep()
 
         await RisingEdge(dut.clk)
