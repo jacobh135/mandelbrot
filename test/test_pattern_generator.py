@@ -1,5 +1,5 @@
 import cocotb
-from cocotb.triggers import Timer, ReadOnly
+from cocotb.triggers import Timer
 
 @cocotb.test()
 async def test_pattern_generator(dut):       
