@@ -13,6 +13,7 @@ async def test_video_on(dut):
     await ReadOnly()
     assert dut.uo_out.value == 101, f"Expected uo_out=101, got uo_out={dut.uo_out.value}"
 
+@cocotb.test()
 async def test_video_off(dut):
     dut.red.value = 3;
     dut.green.value = 2;
