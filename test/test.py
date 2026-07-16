@@ -3,7 +3,7 @@
 
 import cocotb
 from cocotb.clock import Clock
-from cocotb.triggers import ClockCycles, ReadOnly
+from cocotb.triggers import ClockCycles, FallingEdge
 
 
 @cocotb.test()
@@ -40,7 +40,7 @@ async def test_project(dut):
     # # one or more clock cycles, and asserting the expected output values.
 
     for i in range(800 * 525):
-        await ReadOnly()
+        await FallingEdge(dut.clk)
         uo_out = 0
 
         x_pos = i % 800
