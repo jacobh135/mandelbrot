@@ -1,8 +1,8 @@
 SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 
-VERILOG_SOURCES = $(PWD)/../src/out_generator.v
-COCOTB_TOPLEVEL = out_generator
-COCOTB_TEST_MODULES = test_out_generator
+VERILOG_SOURCES = $(PWD)/../src/coordinate_mapper.v
+COCOTB_TOPLEVEL = coordinate_mapper
+COCOTB_TEST_MODULES = test_coordinate_mapper
 
 include $(shell cocotb-config --makefiles)/Makefile.sim

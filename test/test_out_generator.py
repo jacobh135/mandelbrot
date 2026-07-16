@@ -1,5 +1,5 @@
 import cocotb
-from cocotb.triggers import ReadOnly
+from cocotb.triggers import Timer
 
 @cocotb.test()
 async def test_video_on(dut):
@@ -10,7 +10,7 @@ async def test_video_on(dut):
     dut.vsync.value = 0;
     dut.video_active.value = 1;
 
-    await ReadOnly()
+    await Timer(1, unit="ns")
     assert dut.uo_out.value == 101, f"Expected uo_out=101, got uo_out={dut.uo_out.value}"
 
 @cocotb.test()
@@ -22,5 +22,5 @@ async def test_video_off(dut):
     dut.vsync.value = 0;
     dut.video_active.value = 0;
 
-    await ReadOnly()
+    await Timer(1, unit="ns")
     assert dut.uo_out.value == 128, f"Expected uo_out=128, got uo_out={dut.uo_out.value}"
