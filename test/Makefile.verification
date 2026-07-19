@@ -1,8 +1,8 @@
 SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 
-VERILOG_SOURCES = $(PWD)/../src/cranker.v
-COCOTB_TOPLEVEL = cranker
-COCOTB_TEST_MODULES = test_cranker
+VERILOG_SOURCES = $(PWD)/../src/colormap.v
+COCOTB_TOPLEVEL = colormap
+COCOTB_TEST_MODULES = test_colormap
 
 include $(shell cocotb-config --makefiles)/Makefile.sim
