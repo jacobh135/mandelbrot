@@ -45,11 +45,11 @@ async def test_cranker(dut):
 
         dut.c_x.value = c_x
         dut.c_y.value = c_y
-        dut.c_done.value = 1
+        dut.enable.value = 1
 
         await FallingEdge(dut.clk)
 
-        dut.c_done.value = 0
+        dut.enable.value = 0
 
         while (dut.cranker_done.value == 0):
             await FallingEdge(dut.clk)

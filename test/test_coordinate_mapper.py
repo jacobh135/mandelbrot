@@ -3,7 +3,7 @@ from cocotb.clock import Clock
 from cocotb.triggers import Timer
 
 @cocotb.test()
-async def test_file(dut):
+async def test_coordinate_mapper(dut):
     for i in range (800 * 525):
         dut.x_pos.value = i % 800
         dut.y_pos.value = i // 800

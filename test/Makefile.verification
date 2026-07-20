@@ -1,8 +1,8 @@
 SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 
-VERILOG_SOURCES = $(PWD)/../src/colormap.v
-COCOTB_TOPLEVEL = colormap
-COCOTB_TEST_MODULES = test_colormap
+VERILOG_SOURCES = $(PWD)/../src/pixel_generator.v
+COCOTB_TOPLEVEL = pixel_generator
+COCOTB_TEST_MODULES = test_pixel_generator
 
 include $(shell cocotb-config --makefiles)/Makefile.sim

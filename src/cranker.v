@@ -1,5 +1,5 @@
 module cranker (
-    input wire c_done, clk, rst_n,
+    input wire enable, clk, rst_n,
     input wire signed [17:0] c_x, c_y,
     output reg cranker_done,
     output reg [4:0] count
@@ -25,7 +25,7 @@ module cranker (
         else begin
             case (state)
                 0: begin
-                    if (c_done) begin
+                    if (enable) begin
                         state <= state + 1;
                         z_x <= z_x_2[32:15] - z_y_2[32:15] + c_x;
                         z_y <= z_y_z_x[32:15] + z_y_z_x[32:15] + c_y;
