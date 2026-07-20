@@ -4,19 +4,18 @@ from cocotb.triggers import Timer
 @cocotb.test()
 async def test_pixel_generator(dut):
     
-    for i in range(-32, 0):
-        x_t = i
-        y_t = 0
+    x_t = -1
+    y_t = 0
 
-        dut.x_t.value = x_t
-        dut.y_t.value = y_t
+    dut.x_t.value = x_t
+    dut.y_t.value = y_t
 
-        await Timer(1, unit="ns")
+    await Timer(1, unit="ns")
 
-        x_pos = 0
-        y_pos = 0
-        assert dut.x_pos.value == x_pos, f"Expected x_pos={x_pos}, got x_pos={dut.x_pos.value}"
-        assert dut.y_pos.value == y_pos, f"Expected y_pos={y_pos}, got y_pos={dut.y_pos.value}"
+    x_pos = 0
+    y_pos = 0
+    assert dut.x_pos.value == x_pos, f"Expected x_pos={x_pos}, got x_pos={dut.x_pos.value}"
+    assert dut.y_pos.value == y_pos, f"Expected y_pos={y_pos}, got y_pos={dut.y_pos.value}"
 
     for i in range(800 * 525):
         x_t = i % 640

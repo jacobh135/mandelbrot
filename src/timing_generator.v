@@ -8,7 +8,7 @@ module timing_generator (
     always @(posedge clk) begin
         if (~rst_n) begin
             active <= 0;
-            x_t <= -32;
+            x_t <= -1;
             y_t <= 0;
         end
         else begin

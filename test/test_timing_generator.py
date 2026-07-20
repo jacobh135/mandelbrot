@@ -13,7 +13,7 @@ async def test_timing_generator(dut):
     cocotb.start_soon(clock.start())
     await reset_dut(dut)
 
-    assert dut.x_t.value.to_signed() == -32, f"Expected x_t={-32}, got x_t={dut.x_t.value.to_signed()}"
+    assert dut.x_t.value.to_signed() == -1, f"Expected x_t={-32}, got x_t={dut.x_t.value.to_signed()}"
     assert dut.y_t.value.to_signed() == 0, f"Expected y_t={0}, got y_t={dut.y_t.value.to_signed()}"
 
     assert dut.hsync.value == 1, f"Expected hsync={1}, got hsync={dut.hsync.value}"
