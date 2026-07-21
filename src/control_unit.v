@@ -5,7 +5,7 @@ module control_unit (
 );
     assign time_enable = cranker_done;
     assign cranker_enable = (((x_t[4:0] == 5'b00000) || (x_t == -11'sd1)) && (x_t < 640) && (y_t < 480));
-    assign count_advance = ((x_t[4:0] == 5'b00000) && (x_t < 640) && (y_t < 480));
+    assign count_advance = ((x_t[4:0] == 5'b11111) && (x_t < 640) && (y_t < 480));
     assign count_capture = cranker_done;
 
 endmodule

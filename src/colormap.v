@@ -1,9 +1,9 @@
 module colormap (
-    input wire [4:0] count,
+    input wire [4:0] active_count,
     output reg [1:0] red, green, blue
 );
     always @(*) begin
-        case (count)
+        case (active_count)
             0: begin
                 red = 2'd0;
                 green = 2'd0;

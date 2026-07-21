@@ -54,25 +54,35 @@ def cranker_real(x_pos, y_pos):
 frac = 15
 clamp_active = False
 
-# difference_count = 0
 display_ba = [[0 for j in range(800)] for j in range(525)]
-# display_real = [[0 for j in range(640)] for j in range(480)]
-# display_difference = [[0 for j in range(640)] for j in range(480)]
-for j in range(800 * 525):
-    x_pos = j % 800
-    y_pos = j // 800
+for i in range(800 * 525):
+    x_t = i % 800
+    y_t = i // 800
 
-    if ((x_pos < 640) and (y_pos < 480)):
-        display_ba[y_pos][x_pos] = cranker(x_pos, y_pos, frac, False)
+    x_pos = (x_t // 32) * 32
+    y_pos = (y_t // 32) * 32
+
+    if ((x_t < 640) and (y_t < 480)):
+        display_ba[y_t][x_t] = cranker(x_pos, y_pos, frac, False)
     else:
-        display_ba[y_pos][x_pos] = 0
-    # display_real[y_pos][x_pos] = cranker_real(x_pos, y_pos)
-    # difference = abs(display_ba[y_pos][x_pos] - display_real[y_pos][x_pos])
-    # display_difference[y_pos][x_pos] = difference
-    # if (difference):
-    #     difference_count += 1
+        display_ba[y_t][x_t] = 0
 
-## colormap
+# # difference_count = 0
+# display_ba = [[0 for j in range(640)] for j in range(480)]
+# # display_real = [[0 for j in range(640)] for j in range(480)]
+# # display_difference = [[0 for j in range(640)] for j in range(480)]
+# for j in range(640 * 480):
+#     x_pos = j % 640
+#     y_pos = j // 640
+
+#     display_ba[y_pos][x_pos] = cranker(x_pos, y_pos, frac, clamp_active)
+#     # display_real[y_pos][x_pos] = cranker_real(x_pos, y_pos)
+#     # difference = abs(display_ba[y_pos][x_pos] - display_real[y_pos][x_pos])
+#     # display_difference[y_pos][x_pos] = difference
+#     # if (difference):
+#     #     difference_count += 1
+
+# ## colormap
 
 rgb222_table_A_huesweep = [
     (0, 0, 0),  # count=0

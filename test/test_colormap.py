@@ -41,7 +41,7 @@ async def test_colormap(dut):
     ]
 
     for i in range(32):
-        dut.count.value = i
+        dut.active_count.value = i
 
         await Timer(1, unit="ns")
 

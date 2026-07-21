@@ -5,13 +5,31 @@ import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles, FallingEdge
 
+def adjust(num, frac):
+    num %= (2 ** (frac + 3))
+    if (num >= (2 ** (frac + 2))):
+        num -= (2 ** (frac + 3))
+
+    return num
+
+def find_count(c_x, c_y, frac):
+    z_x = 0
+    z_y = 0
+    count = 0
+    while ((z_x ** 2 + z_y ** 2 <= 4 * (2 ** frac) ** 2) and (count < 24)):
+        z_x_new = adjust((z_x ** 2) // (2 ** frac) - (z_y ** 2) // (2 ** frac) + c_x, frac)
+        z_y_new = adjust(2 * ((z_x * z_y) // (2 ** frac)) + c_y, frac)
+        z_x = z_x_new
+        z_y = z_y_new
+        count += 1
+    return count
 
 @cocotb.test()
 async def test_project(dut):
     dut._log.info("Start")
 
     # Set the clock period to 10 us (100 KHz)
-    clock = Clock(dut.clk, 10, unit="ns")
+    clock = Clock(dut.clk, 10, unit="ns") # ns
     cocotb.start_soon(clock.start())
 
     # Reset
@@ -39,37 +57,104 @@ async def test_project(dut):
     # # Keep testing the module by changing the input values, waiting for
     # # one or more clock cycles, and asserting the expected output values.
 
-    for i in range(800 * 525):
+    colors = [
+        [0, 0, 0],
+        [0, 0, 1],
+        [0, 0, 2],
+        [1, 0, 3],
+        [0, 0, 3],
+        [0, 1, 3],
+        [0, 1, 2],
+        [0, 2, 3],
+        [0, 2, 2],
+        [0, 3, 3],
+        [1, 3, 3],
+        [1, 3, 2],
+        [1, 3, 1],
+        [2, 3, 1],
+        [2, 3, 0],
+        [3, 3, 0],
+        [3, 2, 0],
+        [2, 2, 0],
+        [3, 1, 0],
+        [2, 1, 0],
+        [3, 0, 0],
+        [3, 0, 1],
+        [2, 0, 0],
+        [1, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+    ]
+
+    frac = 15
+
+    while (dut.user_project.cranker_done.value == 0):
         await FallingEdge(dut.clk)
-        uo_out = 0
+    await FallingEdge(dut.clk)
 
-        x_pos = i % 800
-        y_pos = i // 800
+    for i in range(800 * 525):
+        x_t = i % 800
+        y_t = i // 800
 
-        hsync = int(not ((656 <= x_pos) and (751 >= x_pos)))
-        vsync = int(not ((490 <= y_pos) and (491 >= y_pos)))
-        video_active = int((639 >= x_pos) and (479 >= y_pos))
+        x_pos = (x_t // 32) * 32
+        y_pos = (y_t // 32) * 32
 
-        if (video_active):
-            red = (x_pos // 128) % 2
-            green = (x_pos // 64) % 2
-            blue = (x_pos // 32) % 2
+        c_x = x_pos * round(3.5 / 639 * (2 ** frac)) - round(2.5 * (2 ** frac))
+        c_y = y_pos * round(2 / 479 * (2 ** frac)) - 1 * (2 ** frac)
+
+        if ((x_t < 640) and (y_t < 480)):
+            count = find_count(c_x, c_y, frac)
         else:
-            red = 0
-            green = 0
-            blue = 0
+            count = 0
 
-        if (red):
-            uo_out += 1 + 16
-        if (green):
-            uo_out += 2 + 32
-        if (blue):
-            uo_out += 4 + 64
+        red = colors[count][0]
+        green = colors[count][1]
+        blue = colors[count][2]
+
+        hsync = int(not ((656 <= x_t) and (751 >= x_t)))
+        vsync = int(not ((490 <= y_t) and (491 >= y_t)))
+        video_active = int((639 >= x_t) and (479 >= y_t))
+
+        uo_out = 0
+        if (video_active):
+            if (red // 2 == 1):
+                uo_out += 1
+            if (green // 2 == 1):
+                uo_out += 2
+            if (blue // 2 == 1):
+                uo_out += 4
+            if (red % 2 == 1):
+                uo_out += 16
+            if (green % 2 == 1):
+                uo_out += 32
+            if (blue % 2 == 1):
+                uo_out += 64
         if (hsync):
             uo_out += 128
         if (vsync):
             uo_out += 8
 
-        assert uo_out == dut.uo_out.value
+        assert dut.uo_out.value == uo_out, f"Expected uo_out={bin(uo_out)}, got uo_out={dut.uo_out.value}"
 
-        await ClockCycles(dut.clk, 1)
+        await FallingEdge(dut.clk)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

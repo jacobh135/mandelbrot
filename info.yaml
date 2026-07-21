@@ -18,8 +18,13 @@ project:
   # Don't forget to also update `PROJECT_SOURCES` in test/Makefile.
   source_files:
     - "project.v"
+    - "control_unit.v"
     - "timing_generator.v"
-    - "pattern_generator.v"
+    - "pixel_generator.v"
+    - "coordinate_mapper.v"
+    - "cranker.v"
+    - "count_register.v"
+    - "colormap.v"
     - "out_generator.v"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.

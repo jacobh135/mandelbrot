@@ -14,7 +14,7 @@ async def test_control_unit(dut):
     await Timer (1, unit="ns")
 
     cranker_enable = 1
-    count_advance = 0
+    count_advance = 1
 
     assert dut.time_enable.value == 0, f"Expected time_enable={0}, got time_enable={dut.time_enable.value}"
     assert dut.count_capture.value == 0, f"Expected count_capture={0}, got count_capture={dut.count_capture.value}"
@@ -33,7 +33,7 @@ async def test_control_unit(dut):
         await Timer (1, unit="ns")
 
         cranker_enable = int((x_t % 32 == 0 or x_t == -1) and (x_t < 640) and (y_t < 480))
-        count_advance = int((x_t % 32 == 0) and (x_t < 640) and (y_t < 480))
+        count_advance = int((x_t % 32 == 31) and (x_t < 640) and (y_t < 480))
 
         assert dut.time_enable.value == 0, f"Expected time_enable={0}, got time_enable={dut.time_enable.value}"
         assert dut.count_capture.value == 0, f"Expected count_capture={0}, got count_capture={dut.count_capture.value}"
