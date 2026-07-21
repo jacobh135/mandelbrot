@@ -59,8 +59,8 @@ for i in range(800 * 525):
     x_t = i % 800
     y_t = i // 800
 
-    x_pos = (x_t // 32) * 32
-    y_pos = (y_t // 32) * 32
+    x_pos = (x_t // 1) * 1
+    y_pos = (y_t // 1) * 1
 
     if ((x_t < 640) and (y_t < 480)):
         display_ba[y_t][x_t] = cranker(x_pos, y_pos, frac, False)

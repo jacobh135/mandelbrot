@@ -6,8 +6,8 @@ module pixel_generator (
     reg signed [10:0] y_sum;
 
     always @(*) begin
+        x_sum = x_t + 11'd32;
         if ((x_t + 32 < 640) && (y_t < 480)) begin
-            x_sum = x_t + 11'sd32;
             x_pos = {x_sum[9:5], 5'b00000};
             y_sum = y_t;
             y_pos = {y_sum[9:5], 5'b00000};
