@@ -2,6 +2,8 @@
  * Copyright (c) 2024 Jacob He
  * SPDX-License-Identifier: Apache-2.0
  */
+ 
+`include "config.vh"
 
 `default_nettype none
 
@@ -18,7 +20,7 @@ module tt_um_jacobh135_mandelbrot (
   wire cranker_done, time_enable, cranker_enable, count_advance, count_capture, hsync, vsync, video_active;
   wire signed [10:0] x_t, y_t;
   wire [9:0] x_pos, y_pos;
-  wire signed [17:0] c_x, c_y;
+  wire signed [`FRAC+2:0] c_x, c_y;
   wire [4:0] count, active_count;
   wire [1:0] red, green, blue;
 

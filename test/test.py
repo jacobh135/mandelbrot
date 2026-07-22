@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: © 2024 Tiny Tapeout
 # SPDX-License-Identifier: Apache-2.0
 
+import os
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles, FallingEdge
@@ -92,7 +93,7 @@ async def test_project(dut):
         [0, 0, 0],
     ]
 
-    frac = 15
+    frac = int(os.environ.get("FRAC"))
 
     while (dut.user_project.cranker_done.value == 0):
         await FallingEdge(dut.clk)
@@ -105,8 +106,13 @@ async def test_project(dut):
         x_pos = (x_t // 32) * 32
         y_pos = (y_t // 32) * 32
 
-        c_x = x_pos * round(3.5 / 639 * (2 ** frac)) - round(2.5 * (2 ** frac))
-        c_y = y_pos * round(2 / 479 * (2 ** frac)) - 1 * (2 ** frac)
+        x_scale = (7 * (1 << (frac - 1)) + 319) // 639
+        y_scale = ((1 << (frac + 1)) + 239) // 479
+        x_off   = 5 << (frac - 1)
+        y_off   = 1 << frac
+
+        c_x = x_pos * x_scale - x_off
+        c_y = y_pos * y_scale - y_off
 
         if ((x_t < 640) and (y_t < 480)):
             count = find_count(c_x, c_y, frac)

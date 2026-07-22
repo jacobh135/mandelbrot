@@ -1,3 +1,4 @@
+import os
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import FallingEdge
@@ -31,15 +32,20 @@ async def test_cranker(dut):
     cocotb.start_soon(Clock(dut.clk, 10, unit="ns").start())
     await reset_dut(dut)
 
-    frac = 15
+    frac = int(os.environ.get("FRAC"))
 
     for i in range(640 * 480):
         
         x_pos = i % 640
         y_pos = i // 640
 
-        c_x = x_pos * round(3.5 / 639 * (2 ** frac)) - round(2.5 * (2 ** frac))
-        c_y = y_pos * round(2 / 479 * (2 ** frac)) - 1 * (2 ** frac)
+        x_scale = (7 * (1 << (frac - 1)) + 319) // 639
+        y_scale = ((1 << (frac + 1)) + 239) // 479
+        x_off   = 5 << (frac - 1)
+        y_off   = 1 << frac
+
+        c_x = x_pos * x_scale - x_off
+        c_y = y_pos * y_scale - y_off
 
         count = find_count(c_x, c_y, frac)
 

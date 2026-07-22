@@ -5,6 +5,9 @@
 SIM ?= icarus
 FST ?= -fst # Use more efficient FST format
 TOPLEVEL_LANG ?= verilog
+FRAC ?= $(shell sed -n 's/.*define FRAC \([0-9][0-9]*\).*/\1/p' $(SRC_DIR)/config.vh)
+export FRAC
+COMPILE_ARGS += -DFRAC=$(FRAC)
 SRC_DIR = $(PWD)/../src
 PROJECT_SOURCES = project.v control_unit.v timing_generator.v pixel_generator.v coordinate_mapper.v cranker.v count_register.v colormap.v out_generator.v
 

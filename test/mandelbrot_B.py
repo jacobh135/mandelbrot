@@ -1,3 +1,4 @@
+import os
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap, BoundaryNorm
 
@@ -51,7 +52,8 @@ def cranker_real(x_pos, y_pos):
     return count;
 
 
-frac = 15
+frac = int(os.environ.get("FRAC"))
+px_size = 16
 clamp_active = False
 
 display_ba = [[0 for j in range(800)] for j in range(525)]
@@ -59,8 +61,8 @@ for i in range(800 * 525):
     x_t = i % 800
     y_t = i // 800
 
-    x_pos = (x_t // 1) * 1
-    y_pos = (y_t // 1) * 1
+    x_pos = (x_t // px_size) * px_size
+    y_pos = (y_t // px_size) * px_size
 
     if ((x_t < 640) and (y_t < 480)):
         display_ba[y_t][x_t] = cranker(x_pos, y_pos, frac, False)

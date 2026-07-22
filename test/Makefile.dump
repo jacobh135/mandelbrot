@@ -1,14 +1,20 @@
-SIM            ?= icarus
-TOPLEVEL_LANG  ?= verilog
+SIM ?= icarus
+TOPLEVEL_LANG ?= verilog
 
 MOD ?= control_unit
+FRAC ?= $(shell sed -n 's/.*define FRAC \([0-9][0-9]*\).*/\1/p' $(SRC_DIR)/config.vh)
+export FRAC
 
-VERILOG_SOURCES  = $(PWD)/../src/$(MOD).v
+SRC_DIR = $(PWD)/../src
+
+VERILOG_SOURCES = $(SRC_DIR)/$(MOD).v
 VERILOG_SOURCES += $(PWD)/dump.v
 
-COCOTB_TOPLEVEL      = $(MOD)
-COCOTB_TEST_MODULES  = test_$(MOD)
+COCOTB_TOPLEVEL = $(MOD)
+COCOTB_TEST_MODULES = test_$(MOD)
 
+COMPILE_ARGS += -I$(SRC_DIR)
+COMPILE_ARGS += -DFRAC=$(FRAC)
 COMPILE_ARGS += -DDUMP_TOP=$(MOD)
 COMPILE_ARGS += -DDUMP_FILE=\"dump.fst\"
 COMPILE_ARGS += -s dump
