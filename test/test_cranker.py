@@ -32,7 +32,7 @@ async def test_cranker(dut):
     cocotb.start_soon(Clock(dut.clk, 10, unit="ns").start())
     await reset_dut(dut)
 
-    frac = int(os.environ.get("FRAC"))
+    frac = int(os.environ.get("FRAC", "12"))
 
     for i in range(640 * 480):
         

@@ -52,7 +52,7 @@ def cranker_real(x_pos, y_pos):
     return count;
 
 
-frac = int(os.environ.get("FRAC"))
+frac = int(os.environ.get("FRAC", "12"))
 px_size = 16
 clamp_active = False
 

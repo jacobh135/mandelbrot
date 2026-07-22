@@ -93,11 +93,10 @@ async def test_project(dut):
         [0, 0, 0],
     ]
 
-    frac = int(os.environ.get("FRAC"))
+    frac = int(os.environ.get("FRAC", "12"))
 
-    while (dut.user_project.cranker_done.value == 0):
+    while (dut.user_project.uo_out.value == 136):
         await FallingEdge(dut.clk)
-    await FallingEdge(dut.clk)
 
     for i in range(800 * 525):
         x_t = i % 800
@@ -149,18 +148,3 @@ async def test_project(dut):
         assert dut.uo_out.value == uo_out, f"Expected uo_out={bin(uo_out)}, got uo_out={dut.uo_out.value}"
 
         await FallingEdge(dut.clk)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

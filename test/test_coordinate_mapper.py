@@ -6,7 +6,7 @@ from cocotb.triggers import Timer
 @cocotb.test()
 async def test_coordinate_mapper(dut):
 
-    frac = int(os.environ.get("FRAC"))
+    frac = int(os.environ.get("FRAC", "12"))
 
     for i in range (800 * 525):
         dut.x_pos.value = i % 800
